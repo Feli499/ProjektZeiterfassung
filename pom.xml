@@ -49,6 +49,11 @@
                 <version>3.2.0</version>
                 <configuration>
                     <finalName>${project.artifactId}</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.ehemanns.zeiterfassung.ProjektZeiterfassungMain</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
