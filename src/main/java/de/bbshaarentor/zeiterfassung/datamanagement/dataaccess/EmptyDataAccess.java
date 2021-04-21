@@ -1,8 +1,9 @@
 package de.bbshaarentor.zeiterfassung.datamanagement.dataaccess;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashSet;
 
+import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
 import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
@@ -11,17 +12,22 @@ public class EmptyDataAccess implements DataAccess {
 
     @Override
     public Collection<ProjektDaten> loadProjektDaten() {
-        return Collections.emptySet();
+        return new HashSet<>();
     }
 
     @Override
     public Collection<ProjektBereichDaten> loadProjektBereichDaten() {
-        return Collections.emptySet();
+        return new HashSet<>();
     }
 
     @Override
     public Collection<ZeitErfassung> loadZeitErfassungen() {
-        return Collections.emptySet();
+        return new HashSet<>();
+    }
+
+    @Override
+    public Collection<User> loadUsers() {
+        return new HashSet<>();
     }
 
     @Override
@@ -37,5 +43,9 @@ public class EmptyDataAccess implements DataAccess {
     @Override
     public void saveZeitErfassung(Collection<ZeitErfassung> zeitErfassungen) {
 
+    }
+
+    @Override
+    public void saveUser(Collection<User> users) {
     }
 }

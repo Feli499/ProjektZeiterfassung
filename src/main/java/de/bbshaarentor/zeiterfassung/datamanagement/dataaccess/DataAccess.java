@@ -2,6 +2,7 @@ package de.bbshaarentor.zeiterfassung.datamanagement.dataaccess;
 
 import java.util.Collection;
 
+import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
 import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
@@ -14,10 +15,14 @@ public interface DataAccess {
 
     Collection<ZeitErfassung> loadZeitErfassungen();
 
+    Collection<User> loadUsers();
+
     void saveProjektDaten(Collection<ProjektDaten> projektDaten);
 
     void saveProjektBereichDaten(Collection<ProjektBereichDaten> projektBereichDaten);
 
     void saveZeitErfassung(Collection<ZeitErfassung> zeitErfassungen);
+
+    void saveUser(Collection<User> users);
 
 }
