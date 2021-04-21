@@ -2,14 +2,20 @@ package de.bbshaarentor.zeiterfassung;
 
 public class User {
 
-    private String name;
+    private final long userId;
+    private final String name;
 
-    public User(String name){
+    public User(long userId, String name) {
 
+        this.userId = userId;
         this.name = name;
     }
 
+    public long getUserId() {
+        return this.userId;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 }

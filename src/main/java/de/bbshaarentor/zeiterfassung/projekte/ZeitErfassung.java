@@ -6,24 +6,36 @@ public class ZeitErfassung {
 
     private final long id;
     private final String kommentar;
+    private final long startZeit;
+    private final long endZeit;
     private final User benutzer;
 
-    public ZeitErfassung(long id, String Kommentar, User benutzer){
+    public ZeitErfassung(long id, String Kommentar, long startZeit, long endZeit, User benutzer) {
 
         this.id = id;
-        kommentar = Kommentar;
+        this.kommentar = Kommentar;
+        this.startZeit = startZeit;
+        this.endZeit = endZeit;
         this.benutzer = benutzer;
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getKommentar() {
-        return kommentar;
+        return this.kommentar;
     }
 
     public User getBenutzer() {
-        return benutzer;
+        return this.benutzer;
+    }
+
+    public long getStartZeit() {
+        return this.startZeit;
+    }
+
+    public long getEndZeit() {
+        return this.endZeit;
     }
 }
