@@ -51,7 +51,7 @@
                     <finalName>${project.artifactId}</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>com.ehemanns.zeiterfassung.ProjektZeiterfassungMain</mainClass>
+                            <mainClass>de.bbshaarentor.zeiterfassung.ProjektZeiterfassungMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
