@@ -1,10 +1,7 @@
 package de.bbshaarentor.zeiterfassung.projekte;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,18 +23,18 @@ public class ProjektBereich {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getBezeichnung() {
-        return bezeichnung;
+        return this.bezeichnung;
     }
 
     public Set<ZeitErfassung> getZeitErfassungen() {
-        return new TreeSet<>(zeitErfassungen);
+        return new TreeSet<>(this.zeitErfassungen);
     }
 
-    public void addZeitErfassung(ZeitErfassung zeitErfassung){
-        zeitErfassungen.add(zeitErfassung);
+    public void addZeitErfassung(ZeitErfassung zeitErfassung) {
+        this.zeitErfassungen.add(zeitErfassung);
     }
 }

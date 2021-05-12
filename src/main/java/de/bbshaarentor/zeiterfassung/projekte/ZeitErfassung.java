@@ -2,14 +2,14 @@ package de.bbshaarentor.zeiterfassung.projekte;
 
 import de.bbshaarentor.zeiterfassung.User;
 
-public class ZeitErfassung implements Comparable<ZeitErfassung>{
+public class ZeitErfassung implements Comparable<ZeitErfassung> {
 
     private final long id;
     private final String kommentar;
-    private long logZeit;
     private final long startZeit;
     private final long endZeit;
     private final User benutzer;
+    private final long logZeit;
 
     public ZeitErfassung(long id, String Kommentar, long logZeit, long startZeit, long endZeit, User benutzer) {
 
@@ -34,7 +34,7 @@ public class ZeitErfassung implements Comparable<ZeitErfassung>{
     }
 
     public long getLogZeit() {
-        return logZeit;
+        return this.logZeit;
     }
 
     public long getStartZeit() {
@@ -47,6 +47,6 @@ public class ZeitErfassung implements Comparable<ZeitErfassung>{
 
     @Override
     public int compareTo(ZeitErfassung o) {
-        return (int) ((int) o.getLogZeit() - logZeit);
+        return (int) ((int) o.getLogZeit() - this.logZeit);
     }
 }

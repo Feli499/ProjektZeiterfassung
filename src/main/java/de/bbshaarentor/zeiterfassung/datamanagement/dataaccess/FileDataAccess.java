@@ -15,9 +15,9 @@ public class FileDataAccess implements DataAccess {
     public FileDataAccess(File directory) {
 
         this.directory = directory;
-        if (!directory.exists())
+        if (!directory.exists()) {
             directory.mkdirs();
-
+        }
     }
 
     @Override
