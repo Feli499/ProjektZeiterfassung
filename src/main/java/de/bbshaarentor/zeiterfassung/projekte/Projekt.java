@@ -9,22 +9,26 @@ public class Projekt {
     private final String bezeichnung;
     private final Set<ProjektBereich> projektBereiche;
 
-    public Projekt(long id, String bezeichnung, Set<ProjektBereich> projektBereiche){
+    public Projekt(long id, String bezeichnung, Set<ProjektBereich> projektBereiche) {
 
         this.id = id;
         this.bezeichnung = bezeichnung;
         this.projektBereiche = projektBereiche;
     }
 
+    public Projekt(long id, String bezeichnung) {
+        this(id, bezeichnung, new HashSet<>());
+    }
+
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getBezeichnung() {
-        return bezeichnung;
+        return this.bezeichnung;
     }
 
     public Set<ProjektBereich> getProjektBereiche() {
-        return new HashSet<>(projektBereiche);
+        return new HashSet<>(this.projektBereiche);
     }
 }
