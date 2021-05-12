@@ -2,9 +2,6 @@ package de.bbshaarentor.zeiterfassung;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import java.net.MulticastSocket;
 
 public class UserTest {
 
@@ -17,6 +14,6 @@ public class UserTest {
         User user = new User(userId, herbertString);
 
         Assertions.assertEquals(herbertString, user.getName());
-        Assertions.assertEquals(userId, user.getUserId());
+        Assertions.assertEquals(userId, user.getId());
     }
 }
