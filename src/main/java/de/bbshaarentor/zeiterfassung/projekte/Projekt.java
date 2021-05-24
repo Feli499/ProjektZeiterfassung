@@ -1,5 +1,6 @@
 package de.bbshaarentor.zeiterfassung.projekte;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,11 +10,11 @@ public class Projekt {
     private final String bezeichnung;
     private final Set<ProjektBereich> projektBereiche;
 
-    public Projekt(long id, String bezeichnung, Set<ProjektBereich> projektBereiche) {
+    public Projekt(long id, String bezeichnung, Collection<ProjektBereich> projektBereiche) {
 
         this.id = id;
         this.bezeichnung = bezeichnung;
-        this.projektBereiche = projektBereiche;
+        this.projektBereiche = new HashSet<>(projektBereiche);
     }
 
     public Projekt(long id, String bezeichnung) {
