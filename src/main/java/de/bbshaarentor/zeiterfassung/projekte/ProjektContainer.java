@@ -1,14 +1,71 @@
 package de.bbshaarentor.zeiterfassung.projekte;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
+import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
+import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.DataAccess;
 
 public class ProjektContainer {
 
-    private final Set<Projekt> projekte;
+    private final DataAccess dataAccess;
+    private Set<Projekt> projekte;
 
-    public ProjektContainer() {
-        this.projekte = new HashSet<>();
+    public ProjektContainer(DataAccess dataAccess) {
+
+        this.dataAccess = dataAccess;
+        this.loadProjekte();
+    }
+
+    private void loadProjekte() {
+
+        Set<Projekt> projekte = new HashSet<>();
+
+        Collection<ProjektDaten> projektDatenCollection = this.dataAccess.loadProjektDaten();
+        Collection<ProjektBereichDaten> projektBereichDatenCollection = this.dataAccess.loadProjektBereichDaten();
+        Collection<ZeitErfassung> zeitErfassungCollection = this.dataAccess.loadZeitErfassungen();
+
+        Map<Long, ProjektBereichDaten> projektBereichDatenMap = new HashMap<>();
+        projektBereichDatenCollection.forEach((projektBereichDaten -> projektBereichDatenMap.put(projektBereichDaten.getId(), projektBereichDaten)));
+
+        Map<Long, ZeitErfassung> zeitErfassungMap = new HashMap<>();
+        zeitErfassungCollection.forEach((zeitErfassung -> zeitErfassungMap.put(zeitErfassung.getId(), zeitErfassung)));
+
+        for (ProjektDaten projektDaten : projektDatenCollection) {
+
+            Set<ProjektBereich> projektBereiche = new HashSet<>();
+
+            for (Long projektBereichID : projektDaten.getProjektBereicheIds()) {
+
+                if (!projektBereichDatenMap.containsKey(projektBereichID)) {
+                    throw new NullPointerException(String.format("Das Projekt '%s' (ID: %d) verweist auf einen Projektbereich mit der ID '%d', diese ist jedoch unbekannt.", projektDaten.getBezeichnung(), projektDaten.getId(), projektBereichID));
+                }
+
+                ProjektBereichDaten projektBereichDaten = projektBereichDatenMap.get(projektBereichID);
+
+                Set<ZeitErfassung> zeitErfassungen = new HashSet<>();
+
+                for (Long zeitErfassungID : projektBereichDaten.getZeitErfassungenIds()) {
+
+                    if (!zeitErfassungMap.containsKey(zeitErfassungID)) {
+                        throw new NullPointerException(String.format("Der Projektbereich '%s' (ID: %d) vom Projekt '%s' (ID: %d) verweist auf eine ZeitErfassung mit der ID '%d', diese ist jedoch unbekannt.", projektBereichDaten.getBezeichnung(), projektBereichDaten.getId(),
+                                projektDaten.getBezeichnung(), projektDaten.getId(), zeitErfassungID));
+                    }
+
+                    zeitErfassungen.add(zeitErfassungMap.get(zeitErfassungID));
+                }
+
+                projektBereiche.add(new ProjektBereich(projektBereichDaten.getId(), projektDaten.getBezeichnung(), zeitErfassungen));
+            }
+
+            projekte.add(new Projekt(projektDaten.getId(), projektDaten.getBezeichnung(), projektBereiche));
+        }
+
+        this.projekte = projekte;
     }
 
     public void addProjekt(Projekt projekt) {

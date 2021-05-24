@@ -2,13 +2,20 @@ package de.bbshaarentor.zeiterfassung.projekte;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.DataAccess;
 
 public class ProjektContainerTest {
 
+    /*
+     * TODO: Die Tests müssen noch die korrekte Interaktion mit dem ProjektContainer Abbilden.
+     */
     @Test
     public void testCreateAndAddProjekt() {
 
-        ProjektContainer projektContainer = new ProjektContainer();
+        DataAccess dataAccess = Mockito.mock(DataAccess.class);
+        ProjektContainer projektContainer = new ProjektContainer(dataAccess);
 
         int basisId = 10;
         projektContainer.addProjekt(new Projekt(basisId, "Test"));
@@ -24,7 +31,8 @@ public class ProjektContainerTest {
     @Test
     public void testAddProjektMitDoppelterId() {
 
-        ProjektContainer projektContainer = new ProjektContainer();
+        DataAccess dataAccess = Mockito.mock(DataAccess.class);
+        ProjektContainer projektContainer = new ProjektContainer(dataAccess);
 
         int id = 10;
 
