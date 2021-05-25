@@ -2,7 +2,7 @@ package de.bbshaarentor.zeiterfassung.datamanagement;
 
 import java.util.List;
 
-public class ProjektBereichDaten {
+public class ProjektBereichDaten implements Comparable<ProjektBereichDaten> {
 
     private final long id;
     private final String bezeichnung;
@@ -25,5 +25,10 @@ public class ProjektBereichDaten {
 
     public List<Long> getZeitErfassungenIds() {
         return this.zeitErfassungenIds;
+    }
+
+    @Override
+    public int compareTo(ProjektBereichDaten o) {
+        return Long.compare(this.getId(), o.getId());
     }
 }

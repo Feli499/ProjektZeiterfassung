@@ -2,9 +2,9 @@ package de.bbshaarentor.zeiterfassung.projekte;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
@@ -23,7 +23,7 @@ public class ProjektContainer {
 
     private void loadProjekte() {
 
-        Set<Projekt> projekte = new HashSet<>();
+        Set<Projekt> projekte = new TreeSet<>();
 
         Collection<ProjektDaten> projektDatenCollection = this.dataAccess.loadProjektDaten();
         Collection<ProjektBereichDaten> projektBereichDatenCollection = this.dataAccess.loadProjektBereichDaten();
@@ -37,7 +37,7 @@ public class ProjektContainer {
 
         for (ProjektDaten projektDaten : projektDatenCollection) {
 
-            Set<ProjektBereich> projektBereiche = new HashSet<>();
+            Set<ProjektBereich> projektBereiche = new TreeSet<>();
 
             for (Long projektBereichID : projektDaten.getProjektBereicheIds()) {
 
@@ -47,7 +47,7 @@ public class ProjektContainer {
 
                 ProjektBereichDaten projektBereichDaten = projektBereichDatenMap.get(projektBereichID);
 
-                Set<ZeitErfassung> zeitErfassungen = new HashSet<>();
+                Set<ZeitErfassung> zeitErfassungen = new TreeSet<>();
 
                 for (Long zeitErfassungID : projektBereichDaten.getZeitErfassungenIds()) {
 
@@ -66,6 +66,10 @@ public class ProjektContainer {
         }
 
         this.projekte = projekte;
+    }
+
+    public Set<Projekt> getProjekte() {
+        return new TreeSet<>(this.projekte);
     }
 
     public void addProjekt(Projekt projekt) {

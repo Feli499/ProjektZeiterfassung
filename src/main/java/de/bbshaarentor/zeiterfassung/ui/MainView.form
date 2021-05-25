@@ -56,7 +56,7 @@
                 <properties/>
                 <border type="none" title="Projekte"/>
                 <children>
-                  <component id="87684" class="javax.swing.JTree" binding="projektJTree" custom-create="true">
+                  <component id="87684" class="javax.swing.JTree" binding="projektJTree">
                     <constraints/>
                     <properties>
                       <rootVisible value="false"/>

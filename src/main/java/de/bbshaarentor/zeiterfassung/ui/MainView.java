@@ -8,11 +8,23 @@ import javax.swing.border.TitledBorder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
+import de.bbshaarentor.zeiterfassung.projekte.ProjektContainer;
+import de.bbshaarentor.zeiterfassung.ui.models.ProjekteTreeModel;
+
 public class MainView implements ZeitErfassungsUIPanel {
 
     private JTree projektJTree;
     private JSplitPane splitPane;
     private JPanel mainPanel;
+    private final ProjektContainer projektContainer;
+
+    public MainView(ProjektContainer projektContainer) {
+
+        this.projektContainer = projektContainer;
+
+        ProjekteTreeModel projekteTreeModel = new ProjekteTreeModel(this.projektContainer);
+        this.projektJTree.setModel(projekteTreeModel);
+    }
 
     @Override
     public JPanel getMainPanel() {
@@ -21,15 +33,6 @@ public class MainView implements ZeitErfassungsUIPanel {
 
     public void ladeFormInRechteSplitpane(ZeitErfassungsUIPanel zeitErfassungsUIPanel) {
         this.splitPane.setRightComponent(zeitErfassungsUIPanel.getMainPanel());
-    }
-
-    private void createUIComponents() {
-
-        /*
-         * TODO: Wir müssen hier unser eigenes TreeModel schreiben und reingeben damit wir im JTree
-         * unsere Projekte / Zeiterfassungen repräsentieren können.
-         */
-        this.projektJTree = new JTree();
     }
 
     {
@@ -47,7 +50,6 @@ public class MainView implements ZeitErfassungsUIPanel {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        createUIComponents();
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         final JToolBar toolBar1 = new JToolBar();
@@ -68,6 +70,7 @@ public class MainView implements ZeitErfassungsUIPanel {
         final JScrollPane scrollPane1 = new JScrollPane();
         splitPane.setLeftComponent(scrollPane1);
         scrollPane1.setBorder(BorderFactory.createTitledBorder(null, "Projekte", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        projektJTree = new JTree();
         projektJTree.setRootVisible(false);
         projektJTree.putClientProperty("JTree.lineStyle", "");
         scrollPane1.setViewportView(projektJTree);

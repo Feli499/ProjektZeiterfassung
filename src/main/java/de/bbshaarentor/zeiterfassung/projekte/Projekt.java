@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Projekt {
+public class Projekt implements Comparable<Projekt> {
 
     private final long id;
     private final String bezeichnung;
@@ -31,5 +31,10 @@ public class Projekt {
 
     public Set<ProjektBereich> getProjektBereiche() {
         return new HashSet<>(this.projektBereiche);
+    }
+
+    @Override
+    public int compareTo(Projekt o) {
+        return Long.compare(this.getId(), o.getId());
     }
 }

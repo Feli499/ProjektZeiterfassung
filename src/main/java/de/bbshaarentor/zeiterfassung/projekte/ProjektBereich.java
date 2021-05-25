@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ProjektBereich {
+public class ProjektBereich implements Comparable<ProjektBereich> {
 
     private final long id;
     private final String bezeichnung;
@@ -36,5 +36,10 @@ public class ProjektBereich {
 
     public void addZeitErfassung(ZeitErfassung zeitErfassung) {
         this.zeitErfassungen.add(zeitErfassung);
+    }
+
+    @Override
+    public int compareTo(ProjektBereich o) {
+        return Long.compare(this.getId(), o.getId());
     }
 }
