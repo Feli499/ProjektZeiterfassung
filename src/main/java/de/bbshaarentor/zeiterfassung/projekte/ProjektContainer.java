@@ -59,7 +59,7 @@ public class ProjektContainer {
                     zeitErfassungen.add(zeitErfassungMap.get(zeitErfassungID));
                 }
 
-                projektBereiche.add(new ProjektBereich(projektBereichDaten.getId(), projektDaten.getBezeichnung(), zeitErfassungen));
+                projektBereiche.add(new ProjektBereich(projektBereichDaten.getId(), projektBereichDaten.getBezeichnung(), zeitErfassungen));
             }
 
             projekte.add(new Projekt(projektDaten.getId(), projektDaten.getBezeichnung(), projektBereiche));
