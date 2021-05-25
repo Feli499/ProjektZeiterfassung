@@ -4,7 +4,10 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeSelectionModel;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -29,6 +32,8 @@ public class MainView implements ZeitErfassungsUIPanel {
         ProjekteTreeModel projekteTreeModel = new ProjekteTreeModel(this.projektContainer);
         this.projektJTree.setModel(projekteTreeModel);
 
+        this.projektJTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
         TreeCellRenderer cellRenderer = this.projektJTree.getCellRenderer();
         this.projektJTree.setCellRenderer((tree, value, selected, expanded, leaf, row, hasFocus) -> {
 
@@ -50,6 +55,22 @@ public class MainView implements ZeitErfassungsUIPanel {
              */
             Component component = cellRenderer.getTreeCellRendererComponent(tree, text, selected, expanded, leaf, row, hasFocus);
             return component;
+        });
+
+        this.projektJTree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+
+                Object[] objects = e.getPath().getPath();
+                Object untersteAuswahl = objects[objects.length - 1];
+
+                if (untersteAuswahl instanceof ZeitErfassung) {
+                    MainView.this.splitPane.setRightComponent(new ZeitErfassenForm((ZeitErfassung) untersteAuswahl).getMainPanel());
+                } else {
+                    MainView.this.splitPane.setRightComponent(new JPanel());
+                }
+
+            }
         });
     }
 

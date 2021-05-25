@@ -4,11 +4,51 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+
+import de.bbshaarentor.zeiterfassung.User;
+import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
+
 public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
     private JTextArea kommentarTextArea;
     private JButton speichernButton;
     private JComboBox benutzerComboBox;
     private JPanel mainPanel;
+
+    public ZeitErfassenForm(ZeitErfassung zeitErfassung) {
+
+        this();
+
+        User benutzer = zeitErfassung.getBenutzer();
+        this.benutzerComboBox.addItem(benutzer);
+        this.benutzerComboBox.setSelectedItem(benutzer);
+        this.kommentarTextArea.setText(zeitErfassung.getKommentar());
+
+        this.benutzerComboBox.setEnabled(false);
+        this.kommentarTextArea.setEnabled(false);
+        this.speichernButton.setEnabled(false);
+    }
+
+    public ZeitErfassenForm() {
+
+        this.benutzerComboBox.setRenderer(new ListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+
+                String text;
+                if (value instanceof User) {
+                    text = ((User) value).getName();
+                } else if (value == null) {
+                    text = "";
+                } else {
+                    text = value.toString();
+                }
+
+                return new JLabel(text);
+            }
+        });
+    }
 
     @Override
     public JPanel getMainPanel() {
@@ -31,21 +71,17 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         kommentarTextArea = new JTextArea();
-        mainPanel.add(kommentarTextArea, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW,
-                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        mainPanel.add(kommentarTextArea, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Benutzer:");
-        mainPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED,
-                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 16), null, 0, false));
+        mainPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 16), null, 0, false));
         speichernButton = new JButton();
         speichernButton.setText("Speichern");
-        mainPanel.add(speichernButton, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL,
-                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(speichernButton, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         benutzerComboBox = new JComboBox();
-        mainPanel.add(benutzerComboBox, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW,
-                com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(benutzerComboBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -54,4 +90,5 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }
