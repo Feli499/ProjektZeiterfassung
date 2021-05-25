@@ -4,11 +4,15 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.tree.TreeCellRenderer;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
+import de.bbshaarentor.zeiterfassung.projekte.Projekt;
+import de.bbshaarentor.zeiterfassung.projekte.ProjektBereich;
 import de.bbshaarentor.zeiterfassung.projekte.ProjektContainer;
+import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
 import de.bbshaarentor.zeiterfassung.ui.models.ProjekteTreeModel;
 
 public class MainView implements ZeitErfassungsUIPanel {
@@ -24,6 +28,29 @@ public class MainView implements ZeitErfassungsUIPanel {
 
         ProjekteTreeModel projekteTreeModel = new ProjekteTreeModel(this.projektContainer);
         this.projektJTree.setModel(projekteTreeModel);
+
+        TreeCellRenderer cellRenderer = this.projektJTree.getCellRenderer();
+        this.projektJTree.setCellRenderer((tree, value, selected, expanded, leaf, row, hasFocus) -> {
+
+            String text = "";
+            if (value instanceof Projekt) {
+                text = ((Projekt) value).getBezeichnung();
+            } else if (value instanceof ProjektBereich) {
+                text = ((ProjektBereich) value).getBezeichnung();
+            } else if (value instanceof ZeitErfassung) {
+                text = ((ZeitErfassung) value).getId() + ": ";
+            } else {
+                text = value.toString();
+            }
+
+            /*
+             * Hier wird etwas geschummelt, da wir einen Ordentlichen Text
+             * in der Oberfläche haben möchten übernehmen wir hier das Design
+             * des Orignal Renderers aber geben unseren Anzeige Namen an.
+             */
+            Component component = cellRenderer.getTreeCellRendererComponent(tree, text, selected, expanded, leaf, row, hasFocus);
+            return component;
+        });
     }
 
     @Override
