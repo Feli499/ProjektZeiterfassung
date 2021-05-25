@@ -7,17 +7,15 @@ public class ZeitErfassung implements Comparable<ZeitErfassung> {
     private final long id;
     private final String kommentar;
     private final long startZeit;
-    private final long endZeit;
     private final User benutzer;
     private final long logZeit;
 
-    public ZeitErfassung(long id, String Kommentar, long logZeit, long startZeit, long endZeit, User benutzer) {
+    public ZeitErfassung(long id, String Kommentar, long logZeit, long startZeit, User benutzer) {
 
         this.id = id;
         this.kommentar = Kommentar;
         this.logZeit = logZeit;
         this.startZeit = startZeit;
-        this.endZeit = endZeit;
         this.benutzer = benutzer;
     }
 
@@ -39,10 +37,6 @@ public class ZeitErfassung implements Comparable<ZeitErfassung> {
 
     public long getStartZeit() {
         return this.startZeit;
-    }
-
-    public long getEndZeit() {
-        return this.endZeit;
     }
 
     @Override
