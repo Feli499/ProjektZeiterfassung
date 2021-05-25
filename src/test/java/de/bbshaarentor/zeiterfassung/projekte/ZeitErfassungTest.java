@@ -17,9 +17,9 @@ public class ZeitErfassungTest {
 
         User user = Mockito.mock(User.class);
 
-        ZeitErfassung zeitErfassung1 = new ZeitErfassung(1, "", System.currentTimeMillis(), System.currentTimeMillis(), System.currentTimeMillis() + 1000, user);
-        ZeitErfassung zeitErfassung2 = new ZeitErfassung(2, "", System.currentTimeMillis() - abstand, System.currentTimeMillis() - abstand, System.currentTimeMillis() - 9000, user);
-        ZeitErfassung zeitErfassung3 = new ZeitErfassung(3, "", System.currentTimeMillis() + abstand, System.currentTimeMillis() + abstand, System.currentTimeMillis() + 11000, user);
+        ZeitErfassung zeitErfassung1 = new ZeitErfassung(1, "", System.currentTimeMillis(), System.currentTimeMillis(), user);
+        ZeitErfassung zeitErfassung2 = new ZeitErfassung(2, "", System.currentTimeMillis() - abstand, System.currentTimeMillis() - abstand, user);
+        ZeitErfassung zeitErfassung3 = new ZeitErfassung(3, "", System.currentTimeMillis() + abstand, System.currentTimeMillis() + abstand, user);
 
         Assertions.assertEquals(-abstand, zeitErfassung1.compareTo(zeitErfassung2));
         Assertions.assertEquals(abstand, zeitErfassung1.compareTo(zeitErfassung3));
