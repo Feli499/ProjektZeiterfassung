@@ -58,7 +58,9 @@
                 <children>
                   <component id="87684" class="javax.swing.JTree" binding="projektJTree" custom-create="true">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <rootVisible value="false"/>
+                    </properties>
                     <clientProperties>
                       <JTree.lineStyle class="java.lang.String" value=""/>
                     </clientProperties>
