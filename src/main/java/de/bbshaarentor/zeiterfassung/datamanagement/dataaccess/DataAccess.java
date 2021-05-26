@@ -2,6 +2,7 @@ package de.bbshaarentor.zeiterfassung.datamanagement.dataaccess;
 
 import java.util.Collection;
 
+
 import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
