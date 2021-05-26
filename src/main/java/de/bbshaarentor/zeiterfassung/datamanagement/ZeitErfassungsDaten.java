@@ -1,6 +1,6 @@
 package de.bbshaarentor.zeiterfassung.datamanagement;
 
-public class ZeitErfassungsDaten {
+public class ZeitErfassungsDaten implements Comparable<ZeitErfassungsDaten> {
 
     private final long id;
     private final String kommentar;
@@ -35,5 +35,10 @@ public class ZeitErfassungsDaten {
 
     public long getUserID() {
         return this.userID;
+    }
+
+    @Override
+    public int compareTo(ZeitErfassungsDaten o) {
+        return Long.compare(o.getId(), this.getId());
     }
 }

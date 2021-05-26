@@ -41,6 +41,6 @@ public class ZeitErfassung implements Comparable<ZeitErfassung> {
 
     @Override
     public int compareTo(ZeitErfassung o) {
-        return (int) ((int) o.getLogZeit() - this.logZeit);
+        return Long.compare(o.getId(), this.getId());
     }
 }
