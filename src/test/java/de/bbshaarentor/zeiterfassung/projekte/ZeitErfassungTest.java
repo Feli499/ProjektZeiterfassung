@@ -21,14 +21,14 @@ public class ZeitErfassungTest {
         ZeitErfassung zeitErfassung2 = new ZeitErfassung(2, "", System.currentTimeMillis() - abstand, System.currentTimeMillis() - abstand, user);
         ZeitErfassung zeitErfassung3 = new ZeitErfassung(3, "", System.currentTimeMillis() + abstand, System.currentTimeMillis() + abstand, user);
 
-        Assertions.assertEquals(-abstand, zeitErfassung1.compareTo(zeitErfassung2));
-        Assertions.assertEquals(abstand, zeitErfassung1.compareTo(zeitErfassung3));
+        Assertions.assertEquals(1, zeitErfassung1.compareTo(zeitErfassung2));
+        Assertions.assertEquals(1, zeitErfassung1.compareTo(zeitErfassung3));
 
-        Assertions.assertEquals(abstand, zeitErfassung2.compareTo(zeitErfassung1));
-        Assertions.assertEquals(abstand * 2, zeitErfassung2.compareTo(zeitErfassung3));
+        Assertions.assertEquals(-1, zeitErfassung2.compareTo(zeitErfassung1));
+        Assertions.assertEquals(1, zeitErfassung2.compareTo(zeitErfassung3));
 
-        Assertions.assertEquals(-abstand, zeitErfassung3.compareTo(zeitErfassung1));
-        Assertions.assertEquals(abstand * -2, zeitErfassung3.compareTo(zeitErfassung2));
+        Assertions.assertEquals(-1, zeitErfassung3.compareTo(zeitErfassung1));
+        Assertions.assertEquals(-1, zeitErfassung3.compareTo(zeitErfassung2));
 
         /* Hier Testen wir die Sortierung in einer TreeSet, auch wenn die Test oben die Sortierung zwar schon bestätigen, aber kost ja nichts :P */
         TreeSet<ZeitErfassung> treeSet = new TreeSet<>();
@@ -37,7 +37,7 @@ public class ZeitErfassungTest {
         treeSet.add(zeitErfassung3);
 
         /* Wir erwarten den neusten zuerst */
-        String expectedIdOrder = "312";
+        String expectedIdOrder = "321";
         String actualIdOrder = "";
 
         for (ZeitErfassung z : treeSet) {

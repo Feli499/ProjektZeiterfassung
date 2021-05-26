@@ -20,7 +20,7 @@ public class ProjektZeiterfassungMain {
 
         try {
 
-            DataAccess dataAccess = new FileDataAccess(new File(System.getenv("APPDATA"), ".zeiterfassung"));
+            DataAccess dataAccess = new FileDataAccess(new File("daten"));
             ProjektContainer projektContainer = new ProjektContainer(dataAccess);
 
             JFrame jFrame = new JFrame("Zeit Erfassung");
