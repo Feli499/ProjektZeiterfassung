@@ -1,9 +1,11 @@
 package de.bbshaarentor.zeiterfassung;
 
+import java.io.File;
+
 import javax.swing.*;
 
 import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.DataAccess;
-import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.EmptyDataAccess;
+import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.FileDataAccess;
 import de.bbshaarentor.zeiterfassung.projekte.ProjektContainer;
 import de.bbshaarentor.zeiterfassung.ui.FehlerDialog;
 import de.bbshaarentor.zeiterfassung.ui.MainView;
@@ -18,7 +20,7 @@ public class ProjektZeiterfassungMain {
 
         try {
 
-            DataAccess dataAccess = new EmptyDataAccess();
+            DataAccess dataAccess = new FileDataAccess(new File(System.getenv("APPDATA"), ".zeiterfassung"));
             ProjektContainer projektContainer = new ProjektContainer(dataAccess);
 
             JFrame jFrame = new JFrame("Zeit Erfassung");

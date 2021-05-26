@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -23,13 +24,34 @@ public class FileDataAccess implements DataAccess {
     public static final String PROJEKTBEREICHDATEN_JSON_DATEINAME = "ProjektBereichDatendatei.json";
     public static final String ZEITERFASSUNGSDATEN_JSON_DATEINAME = "ZeitErfassungDatei.json";
     public static final String USER_JSON_DATEINAME = "UserDatei.json";
+
     private final File directory;
 
-    public FileDataAccess(File directory) {
+    public FileDataAccess(File directory) throws Exception {
 
         this.directory = directory;
         if (!directory.exists()) {
             directory.mkdirs();
+        }
+
+        File projektdatenFile = new File(directory, PROJEKTDATEN_JSON_DATEINAME);
+        if (!projektdatenFile.exists()) {
+            this.saveProjektDaten(Collections.emptyList());
+        }
+
+        File projektbereichdatenFile = new File(directory, PROJEKTBEREICHDATEN_JSON_DATEINAME);
+        if (!projektbereichdatenFile.exists()) {
+            this.saveProjektBereichDaten(Collections.emptyList());
+        }
+
+        File zeiterfassungsdatenFile = new File(directory, ZEITERFASSUNGSDATEN_JSON_DATEINAME);
+        if (!zeiterfassungsdatenFile.exists()) {
+            this.saveZeitErfassung(Collections.emptyList());
+        }
+
+        File userdatenFile = new File(directory, USER_JSON_DATEINAME);
+        if (!userdatenFile.exists()) {
+            this.saveUser(Collections.emptyList());
         }
     }
 
