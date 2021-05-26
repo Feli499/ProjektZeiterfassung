@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
-import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
+import de.bbshaarentor.zeiterfassung.datamanagement.ZeitErfassungsDaten;
 
 public class EmptyDataAccess implements DataAccess {
 
@@ -36,20 +36,19 @@ public class EmptyDataAccess implements DataAccess {
     }
 
     @Override
-    public Collection<ZeitErfassung> loadZeitErfassungen() {
+    public Collection<ZeitErfassungsDaten> loadZeitErfassungen() {
 
-        User user = this.loadUsers().get(0);
-        Set<ZeitErfassung> zeitErfassungen = new TreeSet<>();
-        zeitErfassungen.add(new ZeitErfassung(1, "1", 1000 * 60 * 30, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(2, "2", 1000 * 60 * 10, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(3, "3", 1000 * 60 * 40, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(4, "4", 1000 * 60 * 15, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(5, "5", 1000 * 60 * 1, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(6, "6", 1000 * 60 * 3, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(7, "7", 1000 * 60 * 70, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(8, "8", 1000 * 60 * 45, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(9, "9", 1000 * 60 * 32, System.currentTimeMillis(), user));
-        zeitErfassungen.add(new ZeitErfassung(10, "10", 1000 * 60 * 75, System.currentTimeMillis(), user));
+        Set<ZeitErfassungsDaten> zeitErfassungen = new TreeSet<>();
+        zeitErfassungen.add(new ZeitErfassungsDaten(1, "1", 1000 * 60 * 30, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(2, "2", 1000 * 60 * 10, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(3, "3", 1000 * 60 * 40, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(4, "4", 1000 * 60 * 15, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(5, "5", 1000 * 60 * 1, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(6, "6", 1000 * 60 * 3, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(7, "7", 1000 * 60 * 70, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(8, "8", 1000 * 60 * 45, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(9, "9", 1000 * 60 * 32, System.currentTimeMillis(), 1L));
+        zeitErfassungen.add(new ZeitErfassungsDaten(10, "10", 1000 * 60 * 75, System.currentTimeMillis(), 1L));
 
         return zeitErfassungen;
     }
@@ -70,7 +69,7 @@ public class EmptyDataAccess implements DataAccess {
     }
 
     @Override
-    public void saveZeitErfassung(Collection<ZeitErfassung> zeitErfassungen) {
+    public void saveZeitErfassung(Collection<ZeitErfassungsDaten> zeitErfassungen) {
 
     }
 

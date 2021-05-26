@@ -1,23 +1,28 @@
 package de.bbshaarentor.zeiterfassung.datamanagement.dataaccess;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
-import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
+import de.bbshaarentor.zeiterfassung.datamanagement.ZeitErfassungsDaten;
 
 public class FileDataAccess implements DataAccess {
 
+    public static final String PROJEKTDATEN_JSON_DATEINAME = "projektdatendatei.json";
+    public static final String PROJEKTBEREICHDATEN_JSON_DATEINAME = "ProjektBereichDatendatei.json";
+    public static final String ZEITERFASSUNGSDATEN_JSON_DATEINAME = "ZeitErfassungDatei.json";
+    public static final String USER_JSON_DATEINAME = "UserDatei.json";
     private final File directory;
 
     public FileDataAccess(File directory) {
@@ -29,107 +34,118 @@ public class FileDataAccess implements DataAccess {
     }
 
     @Override
-    public Collection<ProjektDaten> loadProjektDaten() {
-        Collection<ProjektDaten> datenLaden = new ArrayList<ProjektDaten>();
+    public Collection<ProjektDaten> loadProjektDaten() throws Exception {
 
-        // ObjectMapper mapper = new ObjectMapper();
-        try {
-            JSONParser parser = new JSONParser();
-            // Use JSONObject for simple JSON and JSONArray for array of JSON.
-            ProjektDaten data = (ProjektDaten) parser.parse(new FileReader(this.directory + "\\george2.json"));// path to the JSON file.
+        Collection<ProjektDaten> datenLaden = new ArrayList<>();
 
-            datenLaden.add(data);
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        InputStream inputStream = new FileInputStream(new File(this.directory, PROJEKTDATEN_JSON_DATEINAME));
+        JSONArray jsonArray = new JSONArray(new String(inputStream.readAllBytes()));
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            JSONArray projektBereiche = jsonObject.getJSONArray("projektBereicheIds");
+
+            List<Long> ids = new ArrayList<>(projektBereiche.length());
+            for (int projektBereichIndex = 0; projektBereichIndex < projektBereiche.length(); projektBereichIndex++) {
+                ids.add(projektBereiche.getLong(projektBereichIndex));
+            }
+
+            datenLaden.add(new ProjektDaten(jsonObject.getLong("id"), jsonObject.getString("bezeichnung"), ids));
         }
 
         return datenLaden;
     }
 
     @Override
-    public Collection<ProjektBereichDaten> loadProjektBereichDaten() {
-        return null;
-    }
+    public Collection<ProjektBereichDaten> loadProjektBereichDaten() throws Exception {
 
-    @Override
-    public Collection<ZeitErfassung> loadZeitErfassungen() {
-        return null;
-    }
+        Collection<ProjektBereichDaten> datenLaden = new ArrayList<>();
 
-    @Override
-    public Collection<User> loadUsers() {
-        return null;
-    }
+        InputStream inputStream = new FileInputStream(new File(this.directory, PROJEKTBEREICHDATEN_JSON_DATEINAME));
+        JSONArray jsonArray = new JSONArray(new String(inputStream.readAllBytes()));
 
-    @Override
-    public void saveProjektDaten(Collection<ProjektDaten> projektDaten) {
+        for (int i = 0; i < jsonArray.length(); i++) {
 
-        for (ProjektDaten projektDaten2 : projektDaten) {
-            // new ProjektDaten(projektDaten2.getId(),projektDaten2.getBezeichnung(),projektDaten2.getProjektBereicheIds());
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            ObjectMapper mapper = new ObjectMapper();
-            try {
+            JSONArray projektBereiche = jsonObject.getJSONArray("zeitErfassungenIds");
 
-                mapper.writeValue(new File(this.directory + "\\projektdatendatei.json"), projektDaten2);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
+            List<Long> ids = new ArrayList<>(projektBereiche.length());
+            for (int projektBereichIndex = 0; projektBereichIndex < projektBereiche.length(); projektBereichIndex++) {
+                ids.add(projektBereiche.getLong(projektBereichIndex));
             }
+
+            datenLaden.add(new ProjektBereichDaten(jsonObject.getLong("id"), jsonObject.getString("bezeichnung"), ids));
         }
 
+        return datenLaden;
     }
 
     @Override
-    public void saveProjektBereichDaten(Collection<ProjektBereichDaten> projektBereichDaten) {
-        for (ProjektBereichDaten projektBereichDaten2 : projektBereichDaten) {
-            new ProjektBereichDaten(projektBereichDaten2.getId(), projektBereichDaten2.getBezeichnung(), projektBereichDaten2.getZeitErfassungenIds());
+    public Collection<ZeitErfassungsDaten> loadZeitErfassungen() throws Exception {
 
-            ObjectMapper mapper = new ObjectMapper();
-            try {
+        Collection<ZeitErfassungsDaten> datenLaden = new ArrayList<>();
 
-                mapper.writeValue(new File(this.directory + "\\ProjektBereichDatendatei.json"), projektBereichDaten2);
+        InputStream inputStream = new FileInputStream(new File(this.directory, ZEITERFASSUNGSDATEN_JSON_DATEINAME));
+        JSONArray jsonArray = new JSONArray(new String(inputStream.readAllBytes()));
 
-            } catch (IOException e) {
-                e.printStackTrace();
+        for (int i = 0; i < jsonArray.length(); i++) {
 
-            }
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            JSONArray projektBereiche = jsonObject.getJSONArray("zeitErfassungenIds");
+
+            datenLaden.add(new ZeitErfassungsDaten(jsonObject.getLong("id"), jsonObject.getString("bezeichnung"), jsonObject.getLong("logZeit"), jsonObject.getLong("startZeit"), jsonObject.getLong("userID")));
         }
+
+        return datenLaden;
     }
 
     @Override
-    public void saveZeitErfassung(Collection<ZeitErfassung> zeitErfassungen) {
-        for (ZeitErfassung ZeitErfassung2 : zeitErfassungen) {
-            new ZeitErfassung(ZeitErfassung2.getId(), ZeitErfassung2.getKommentar(), ZeitErfassung2.getLogZeit(), ZeitErfassung2.getStartZeit(), ZeitErfassung2.getBenutzer());
+    public Collection<User> loadUsers() throws Exception {
 
-            ObjectMapper mapper = new ObjectMapper();
-            try {
+        Collection<User> datenLaden = new ArrayList<>();
 
-                mapper.writeValue(new File(this.directory + "\\ZeitErfassungDatei.json"), ZeitErfassung2);
+        InputStream inputStream = new FileInputStream(new File(this.directory, USER_JSON_DATEINAME));
+        JSONArray jsonArray = new JSONArray(new String(inputStream.readAllBytes()));
 
-            } catch (IOException e) {
-                e.printStackTrace();
+        for (int i = 0; i < jsonArray.length(); i++) {
 
-            }
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            datenLaden.add(new User(jsonObject.getLong("userId"), jsonObject.getString("name")));
         }
+
+        return datenLaden;
     }
 
     @Override
-    public void saveUser(Collection<User> users) {
+    public void saveProjektDaten(Collection<ProjektDaten> projektDatenCollection) throws Exception {
 
-        for (User user2 : users) {
-            new User(user2.getId(), user2.getName());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(this.directory, PROJEKTDATEN_JSON_DATEINAME), projektDatenCollection);
+    }
 
-            ObjectMapper mapper = new ObjectMapper();
-            try {
+    @Override
+    public void saveProjektBereichDaten(Collection<ProjektBereichDaten> projektBereichDatenCollection) throws Exception {
 
-                mapper.writeValue(new File(this.directory + "\\UserDatei.json"), user2);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(this.directory, PROJEKTBEREICHDATEN_JSON_DATEINAME), projektBereichDatenCollection);
+    }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+    @Override
+    public void saveZeitErfassung(Collection<ZeitErfassungsDaten> zeitErfassungen) throws Exception {
 
-            }
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(this.directory, ZEITERFASSUNGSDATEN_JSON_DATEINAME), zeitErfassungen);
+    }
+
+    @Override
+    public void saveUser(Collection<User> users) throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(this.directory, USER_JSON_DATEINAME), users);
     }
 
 }

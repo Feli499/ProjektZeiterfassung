@@ -12,7 +12,7 @@ public class ProjektContainerTest {
      * TODO: Die Tests müssen noch die korrekte Interaktion mit dem ProjektContainer Abbilden.
      */
     @Test
-    public void testCreateAndAddProjekt() {
+    public void testCreateAndAddProjekt() throws Exception {
 
         DataAccess dataAccess = Mockito.mock(DataAccess.class);
         ProjektContainer projektContainer = new ProjektContainer(dataAccess);
@@ -29,7 +29,7 @@ public class ProjektContainerTest {
     }
 
     @Test
-    public void testAddProjektMitDoppelterId() {
+    public void testAddProjektMitDoppelterId() throws Exception {
 
         DataAccess dataAccess = Mockito.mock(DataAccess.class);
         ProjektContainer projektContainer = new ProjektContainer(dataAccess);

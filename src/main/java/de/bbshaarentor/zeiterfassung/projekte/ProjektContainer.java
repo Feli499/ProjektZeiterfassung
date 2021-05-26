@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.bbshaarentor.zeiterfassung.User;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektBereichDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.ProjektDaten;
+import de.bbshaarentor.zeiterfassung.datamanagement.ZeitErfassungsDaten;
 import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.DataAccess;
 
 public class ProjektContainer {
@@ -15,25 +17,29 @@ public class ProjektContainer {
     private final DataAccess dataAccess;
     private Set<Projekt> projekte;
 
-    public ProjektContainer(DataAccess dataAccess) {
+    public ProjektContainer(DataAccess dataAccess) throws Exception {
 
         this.dataAccess = dataAccess;
         this.loadProjekte();
     }
 
-    private void loadProjekte() {
+    private void loadProjekte() throws Exception {
 
         Set<Projekt> projekte = new TreeSet<>();
 
         Collection<ProjektDaten> projektDatenCollection = this.dataAccess.loadProjektDaten();
         Collection<ProjektBereichDaten> projektBereichDatenCollection = this.dataAccess.loadProjektBereichDaten();
-        Collection<ZeitErfassung> zeitErfassungCollection = this.dataAccess.loadZeitErfassungen();
+        Collection<ZeitErfassungsDaten> zeitErfassungCollection = this.dataAccess.loadZeitErfassungen();
+        Collection<User> users = this.dataAccess.loadUsers();
+
+        Map<Long, User> userMap = new HashMap<>();
+        users.forEach(user -> userMap.put(user.getId(), user));
 
         Map<Long, ProjektBereichDaten> projektBereichDatenMap = new HashMap<>();
         projektBereichDatenCollection.forEach((projektBereichDaten -> projektBereichDatenMap.put(projektBereichDaten.getId(), projektBereichDaten)));
 
         Map<Long, ZeitErfassung> zeitErfassungMap = new HashMap<>();
-        zeitErfassungCollection.forEach((zeitErfassung -> zeitErfassungMap.put(zeitErfassung.getId(), zeitErfassung)));
+        zeitErfassungCollection.forEach((zeitErfassung -> zeitErfassungMap.put(zeitErfassung.getId(), new ZeitErfassung(zeitErfassung.getId(), zeitErfassung.getKommentar(), zeitErfassung.getLogZeit(), zeitErfassung.getStartZeit(), userMap.get(zeitErfassung.getUserID())))));
 
         for (ProjektDaten projektDaten : projektDatenCollection) {
 
