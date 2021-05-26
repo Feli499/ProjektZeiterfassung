@@ -1,7 +1,10 @@
 package de.bbshaarentor.zeiterfassung.projekte;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -78,20 +81,94 @@ public class ProjektContainer {
         return new TreeSet<>(this.projekte);
     }
 
-    public void addProjekt(Projekt projekt) {
+    public void addProjekt(String projektName) throws Exception {
 
-        if (!this.isIdVerfuegbar(projekt.getId())) {
-            throw new IllegalArgumentException(String.format("Die ID '%d' ist bereits vergeben.", projekt.getId()));
+        long id = this.ermittleFreieId();
+        Set<ProjektDaten> projektList = new TreeSet<>();
+        for (Projekt pro : this.projekte) {
+
+            List<Long> ids = new ArrayList<>();
+            pro.getProjektBereiche().forEach(projektBereich -> ids.add(projektBereich.getId()));
+            projektList.add(new ProjektDaten(pro.getId(), pro.getBezeichnung(), ids));
         }
 
-        this.projekte.add(projekt);
+        projektList.add(new ProjektDaten(id, projektName, Collections.emptyList()));
+
+        this.dataAccess.saveProjektDaten(projektList);
+        this.loadProjekte();
     }
 
-    public Projekt createAndAddProjekt(String bezeichnung) {
+    public void addProjektBereich(Projekt projekt, String bereichName) throws Exception {
 
-        Projekt projekt = new Projekt(this.ermittleFreieId(), bezeichnung);
-        this.addProjekt(projekt);
-        return projekt;
+        long id = 0;
+        Set<ProjektDaten> projektList = new TreeSet<>();
+        Set<ProjektBereichDaten> projektBereiche = new TreeSet<>();
+        for (Projekt pro : this.projekte) {
+            for (ProjektBereich projektBereich : pro.getProjektBereiche()) {
+                if (projektBereich.getId() >= id) {
+                    id = projektBereich.getId() + 1;
+                }
+
+                List<Long> ids = new ArrayList<>();
+                projektBereich.getZeitErfassungen().forEach(zeitErfassung -> ids.add(zeitErfassung.getId()));
+                projektBereiche.add(new ProjektBereichDaten(projektBereich.getId(), projektBereich.getBezeichnung(), ids));
+            }
+
+            if (projekt.getId() != pro.getId()) {
+                List<Long> ids = new ArrayList<>();
+                pro.getProjektBereiche().forEach(projektBereich -> ids.add(projektBereich.getId()));
+                projektList.add(new ProjektDaten(pro.getId(), pro.getBezeichnung(), ids));
+            }
+        }
+
+        projektBereiche.add(new ProjektBereichDaten(id, bereichName, Collections.emptyList()));
+
+        List<Long> ids = new ArrayList<>();
+        projekt.getProjektBereiche().forEach(projektBereich -> ids.add(projektBereich.getId()));
+        ids.add(id);
+        projektList.add(new ProjektDaten(projekt.getId(), projekt.getBezeichnung(), ids));
+
+        this.dataAccess.saveProjektBereichDaten(projektBereiche);
+        this.dataAccess.saveProjektDaten(projektList);
+        this.loadProjekte();
+    }
+
+    public void addZeitErfassung(ProjektBereich bereich, String kommentar, Long dauer, Long startZeit, User user) throws Exception {
+
+        long id = 0;
+
+        Set<ProjektBereichDaten> projektBereiche = new TreeSet<>();
+        Set<ZeitErfassungsDaten> zeitErfassungsDaten = new TreeSet<>();
+
+        for (Projekt pro : this.projekte) {
+            for (ProjektBereich projektBereich : pro.getProjektBereiche()) {
+                for (ZeitErfassung zeitErfassung : projektBereich.getZeitErfassungen()) {
+
+                    if (zeitErfassung.getId() >= id) {
+                        id = zeitErfassung.getId() + 1;
+                    }
+
+                    zeitErfassungsDaten.add(new ZeitErfassungsDaten(zeitErfassung.getId(), zeitErfassung.getKommentar(), zeitErfassung.getLogZeit(), zeitErfassung.getStartZeit(), zeitErfassung.getBenutzer().getId()));
+                }
+
+                if (projektBereich.getId() != bereich.getId()) {
+                    List<Long> ids = new ArrayList<>();
+                    projektBereich.getZeitErfassungen().forEach(zeitErfassung -> ids.add(zeitErfassung.getId()));
+                    projektBereiche.add(new ProjektBereichDaten(pro.getId(), pro.getBezeichnung(), ids));
+                }
+            }
+        }
+
+        zeitErfassungsDaten.add(new ZeitErfassungsDaten(id, kommentar, dauer, startZeit, user.getId()));
+
+        List<Long> ids = new ArrayList<>();
+        bereich.getZeitErfassungen().forEach(projektBereich -> ids.add(projektBereich.getId()));
+        ids.add(id);
+        projektBereiche.add(new ProjektBereichDaten(bereich.getId(), bereich.getBezeichnung(), ids));
+
+        this.dataAccess.saveZeitErfassung(zeitErfassungsDaten);
+        this.dataAccess.saveProjektBereichDaten(projektBereiche);
+        this.loadProjekte();
     }
 
     public boolean isIdVerfuegbar(long id) {
