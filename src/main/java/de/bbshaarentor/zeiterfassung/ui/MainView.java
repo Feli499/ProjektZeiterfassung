@@ -1,6 +1,8 @@
 package de.bbshaarentor.zeiterfassung.ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,6 +25,7 @@ public class MainView implements ZeitErfassungsUIPanel {
     private JTree projektJTree;
     private JSplitPane splitPane;
     private JPanel mainPanel;
+    private JButton neuesProjektButton;
     private final ProjektContainer projektContainer;
 
     public MainView(ProjektContainer projektContainer) {
@@ -66,10 +69,22 @@ public class MainView implements ZeitErfassungsUIPanel {
 
                 if (untersteAuswahl instanceof ZeitErfassung) {
                     MainView.this.splitPane.setRightComponent(new ZeitErfassenForm((ZeitErfassung) untersteAuswahl).getMainPanel());
+                } else if (untersteAuswahl instanceof Projekt) {
+                    MainView.this.splitPane.setRightComponent(new ProjektZusammenFassung((Projekt) untersteAuswahl, projektContainer).getMainPanel());
                 } else {
                     MainView.this.splitPane.setRightComponent(new JPanel());
                 }
 
+            }
+        });
+
+        this.neuesProjektButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog jDialog = new NeuesProjektDialog(projektContainer, null);
+                jDialog.setTitle("Neues Projekt:");
+                jDialog.setSize(320, 130);
+                jDialog.setVisible(true);
             }
         });
     }
@@ -105,6 +120,12 @@ public class MainView implements ZeitErfassungsUIPanel {
         final JToolBar toolBar1 = new JToolBar();
         toolBar1.setFloatable(false);
         mainPanel.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
+        neuesProjektButton = new JButton();
+        neuesProjektButton.setMaximumSize(new Dimension(107, 20));
+        neuesProjektButton.setMinimumSize(new Dimension(107, 20));
+        neuesProjektButton.setPreferredSize(new Dimension(107, 20));
+        neuesProjektButton.setText("Neues Projekt");
+        toolBar1.add(neuesProjektButton);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 10, 10, 10), -1, -1));
         mainPanel.add(panel1,

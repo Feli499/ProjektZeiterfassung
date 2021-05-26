@@ -33,16 +33,20 @@ public class ProjektZeiterfassungMain {
             mainView.ladeFormInRechteSplitpane(new ZeitErfassenForm());
 
         } catch (Exception e) {
-
-            FehlerDialog jDialog = new FehlerDialog();
-            jDialog.setTitle("Fehler:");
-            String stacktrace = e.getLocalizedMessage() + "\n";
-            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                stacktrace += stackTraceElement.toString() + "\n";
-            }
-            jDialog.setFehlerText(stacktrace);
-            jDialog.setSize(420, 180);
-            jDialog.setVisible(true);
+            showFehlerDialog(e);
         }
+    }
+
+    public static void showFehlerDialog(Exception e) {
+
+        FehlerDialog jDialog = new FehlerDialog();
+        jDialog.setTitle("Fehler:");
+        String stacktrace = e.getLocalizedMessage() + "\n";
+        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+            stacktrace += stackTraceElement.toString() + "\n";
+        }
+        jDialog.setFehlerText(stacktrace);
+        jDialog.setSize(420, 180);
+        jDialog.setVisible(true);
     }
 }
