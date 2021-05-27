@@ -24,7 +24,7 @@ public class ProjektZusammenFassung implements ZeitErfassungsUIPanel {
         this.projekt = projekt;
         this.projektContainer = projektContainer;
 
-        this.projektNameLabel.setText(projekt.getBezeichnung());
+        this.projektNameLabel.setText("Projekt: " + projekt.getBezeichnung());
 
         this.neuenProjektbereichAnlegenButton.addActionListener(e -> {
             JDialog jDialog = new NeuesProjektDialog(projektContainer, projekt);
@@ -74,4 +74,5 @@ public class ProjektZusammenFassung implements ZeitErfassungsUIPanel {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

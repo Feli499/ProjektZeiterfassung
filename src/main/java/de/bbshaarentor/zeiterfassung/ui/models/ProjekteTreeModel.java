@@ -1,8 +1,11 @@
 package de.bbshaarentor.zeiterfassung.ui.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -19,6 +22,7 @@ public class ProjekteTreeModel implements TreeModel {
     public ProjekteTreeModel(ProjektContainer projektContainer) {
 
         this.projektContainer = projektContainer;
+        projektContainer.registerNewRunnable(this::notifyListener);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ProjekteTreeModel implements TreeModel {
 
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
-
+        throw new UnsupportedOperationException("Der Benutzer darf den Tree nicht direkt bearbeiten.");
     }
 
     @Override
@@ -64,14 +68,23 @@ public class ProjekteTreeModel implements TreeModel {
         return 0;
     }
 
+    Set<TreeModelListener> treeModelListenerSet = new HashSet<>();
+
+    private void notifyListener() {
+
+        for (TreeModelListener treeModelListener : this.treeModelListenerSet) {
+            treeModelListener.treeStructureChanged(new TreeModelEvent(this, new TreePath(this.getRoot())));
+        }
+    }
+
     @Override
     public void addTreeModelListener(TreeModelListener l) {
-
+        this.treeModelListenerSet.add(l);
     }
 
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
-
+        this.treeModelListenerSet.remove(l);
     }
 
     private List<Object> getChildren(Object parent) {

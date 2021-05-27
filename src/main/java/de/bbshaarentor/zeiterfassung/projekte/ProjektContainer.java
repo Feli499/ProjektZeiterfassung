@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,8 @@ public class ProjektContainer {
 
     private final DataAccess dataAccess;
     private Set<Projekt> projekte;
+
+    private final Set<Runnable> runnables = new HashSet<>();
 
     public ProjektContainer(DataAccess dataAccess) throws Exception {
 
@@ -75,6 +78,11 @@ public class ProjektContainer {
         }
 
         this.projekte = projekte;
+        this.runnables.forEach(x -> x.run());
+    }
+
+    public void registerNewRunnable(Runnable runnable) {
+        this.runnables.add(runnable);
     }
 
     public Set<Projekt> getProjekte() {
@@ -180,6 +188,23 @@ public class ProjektContainer {
         }
 
         return true;
+    }
+
+    public Set<User> getBenutzer() throws Exception {
+        return new HashSet<>(this.dataAccess.loadUsers());
+    }
+
+    public void createBenutzer(String benutzerName) throws Exception {
+
+        Set<User> benutzer = this.getBenutzer();
+        long id = 0;
+        for (User user : benutzer) {
+            if (user.getId() >= id) {
+                id = user.getId() + 1;
+            }
+        }
+        benutzer.add(new User(id, benutzerName));
+        this.dataAccess.saveUser(benutzer);
     }
 
     private long ermittleFreieId() {

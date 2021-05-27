@@ -26,6 +26,7 @@ public class MainView implements ZeitErfassungsUIPanel {
     private JSplitPane splitPane;
     private JPanel mainPanel;
     private JButton neuesProjektButton;
+    private JButton neuerBenutzer;
     private final ProjektContainer projektContainer;
 
     public MainView(ProjektContainer projektContainer) {
@@ -87,6 +88,16 @@ public class MainView implements ZeitErfassungsUIPanel {
                 jDialog.setVisible(true);
             }
         });
+
+        this.neuerBenutzer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog jDialog = new BenutzerAnlegenDialog(projektContainer);
+                jDialog.setTitle("Neuen Benutzer anlegen");
+                jDialog.setSize(320, 130);
+                jDialog.setVisible(true);
+            }
+        });
     }
 
     @Override
@@ -126,6 +137,12 @@ public class MainView implements ZeitErfassungsUIPanel {
         neuesProjektButton.setPreferredSize(new Dimension(107, 20));
         neuesProjektButton.setText("Neues Projekt");
         toolBar1.add(neuesProjektButton);
+        neuerBenutzer = new JButton();
+        neuerBenutzer.setMaximumSize(new Dimension(107, 20));
+        neuerBenutzer.setMinimumSize(new Dimension(107, 20));
+        neuerBenutzer.setPreferredSize(new Dimension(107, 20));
+        neuerBenutzer.setText("Neuer Benutzer");
+        toolBar1.add(neuerBenutzer);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 10, 10, 10), -1, -1));
         mainPanel.add(panel1,

@@ -28,6 +28,15 @@
               <text value="Neues Projekt"/>
             </properties>
           </component>
+          <component id="d9161" class="javax.swing.JButton" binding="neuerBenutzer">
+            <constraints/>
+            <properties>
+              <maximumSize width="107" height="20"/>
+              <minimumSize width="107" height="20"/>
+              <preferredSize width="107" height="20"/>
+              <text value="Neuer Benutzer"/>
+            </properties>
+          </component>
         </children>
       </toolbar>
       <grid id="db5b1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
