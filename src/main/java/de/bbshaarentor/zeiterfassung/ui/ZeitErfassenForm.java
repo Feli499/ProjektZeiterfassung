@@ -14,6 +14,7 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
     private JTextArea kommentarTextArea;
     private JComboBox benutzerComboBox;
     private JPanel mainPanel;
+    private JTextField textField1;
 
     public ZeitErfassenForm(ZeitErfassung zeitErfassung) {
 
@@ -21,6 +22,7 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
 
         User benutzer = zeitErfassung.getBenutzer();
         this.benutzerComboBox.addItem(benutzer);
+        this.textField1.setText(zeitErfassung.getLogZeit() / 1000 / 60L + " Minuten");
         this.benutzerComboBox.setSelectedItem(benutzer);
         this.kommentarTextArea.setText(zeitErfassung.getKommentar());
     }
@@ -68,10 +70,10 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         kommentarTextArea = new JTextArea();
         kommentarTextArea.setEditable(false);
-        mainPanel.add(kommentarTextArea, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        mainPanel.add(kommentarTextArea, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Benutzer:");
         mainPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 16), null, 0, false));
@@ -81,6 +83,12 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         benutzerComboBox.setModel(defaultComboBoxModel1);
         mainPanel.add(benutzerComboBox, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label2 = new JLabel();
+        label2.setText("Erfasste Zeit:");
+        mainPanel.add(label2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textField1 = new JTextField();
+        textField1.setEditable(false);
+        mainPanel.add(textField1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**
