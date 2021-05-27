@@ -9,7 +9,6 @@ import de.bbshaarentor.zeiterfassung.datamanagement.dataaccess.FileDataAccess;
 import de.bbshaarentor.zeiterfassung.projekte.ProjektContainer;
 import de.bbshaarentor.zeiterfassung.ui.FehlerDialog;
 import de.bbshaarentor.zeiterfassung.ui.MainView;
-import de.bbshaarentor.zeiterfassung.ui.ZeitErfassenForm;
 
 public class ProjektZeiterfassungMain {
 
@@ -29,8 +28,6 @@ public class ProjektZeiterfassungMain {
             jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jFrame.pack();
             jFrame.setVisible(true);
-
-            mainView.ladeFormInRechteSplitpane(new ZeitErfassenForm());
 
         } catch (Exception e) {
             showFehlerDialog(e);
