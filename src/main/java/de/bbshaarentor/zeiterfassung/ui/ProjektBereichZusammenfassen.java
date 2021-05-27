@@ -35,7 +35,7 @@ public class ProjektBereichZusammenfassen implements ZeitErfassungsUIPanel {
                 try {
                     JDialog jDialog = new ZeitErfassenDialog(projektContainer, projektBereich);
                     jDialog.setTitle("Neue Zeiterfassung:");
-                    jDialog.setSize(320, 400);
+                    jDialog.setSize(400, 300);
                     jDialog.setVisible(true);
 
                 } catch (Exception exception) {
@@ -85,4 +85,5 @@ public class ProjektBereichZusammenfassen implements ZeitErfassungsUIPanel {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

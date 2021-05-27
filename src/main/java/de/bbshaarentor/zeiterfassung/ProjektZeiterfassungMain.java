@@ -27,6 +27,7 @@ public class ProjektZeiterfassungMain {
             jFrame.setContentPane(mainView.getMainPanel());
             jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             jFrame.pack();
+            jFrame.setSize(720, 400);
             jFrame.setVisible(true);
 
         } catch (Exception e) {
