@@ -72,6 +72,8 @@ public class MainView implements ZeitErfassungsUIPanel {
                     MainView.this.splitPane.setRightComponent(new ZeitErfassenForm((ZeitErfassung) untersteAuswahl).getMainPanel());
                 } else if (untersteAuswahl instanceof Projekt) {
                     MainView.this.splitPane.setRightComponent(new ProjektZusammenFassung((Projekt) untersteAuswahl, projektContainer).getMainPanel());
+                } else if (untersteAuswahl instanceof ProjektBereich) {
+                    MainView.this.splitPane.setRightComponent(new ProjektBereichZusammenfassen(projektContainer, (ProjektBereich) untersteAuswahl).getMainPanel());
                 } else {
                     MainView.this.splitPane.setRightComponent(new JPanel());
                 }

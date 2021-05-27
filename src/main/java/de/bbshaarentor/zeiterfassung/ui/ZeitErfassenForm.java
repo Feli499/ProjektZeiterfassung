@@ -12,7 +12,6 @@ import de.bbshaarentor.zeiterfassung.projekte.ZeitErfassung;
 
 public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
     private JTextArea kommentarTextArea;
-    private JButton speichernButton;
     private JComboBox benutzerComboBox;
     private JPanel mainPanel;
 
@@ -24,10 +23,6 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
         this.benutzerComboBox.addItem(benutzer);
         this.benutzerComboBox.setSelectedItem(benutzer);
         this.kommentarTextArea.setText(zeitErfassung.getKommentar());
-
-        this.benutzerComboBox.setEnabled(false);
-        this.kommentarTextArea.setEnabled(false);
-        this.speichernButton.setEnabled(false);
     }
 
     public ZeitErfassenForm() {
@@ -73,17 +68,19 @@ public class ZeitErfassenForm implements ZeitErfassungsUIPanel {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         kommentarTextArea = new JTextArea();
-        mainPanel.add(kommentarTextArea, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        kommentarTextArea.setEditable(false);
+        mainPanel.add(kommentarTextArea, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Benutzer:");
         mainPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 16), null, 0, false));
-        speichernButton = new JButton();
-        speichernButton.setText("Speichern");
-        mainPanel.add(speichernButton, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         benutzerComboBox = new JComboBox();
-        mainPanel.add(benutzerComboBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        benutzerComboBox.setEditable(false);
+        benutzerComboBox.setEnabled(true);
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        benutzerComboBox.setModel(defaultComboBoxModel1);
+        mainPanel.add(benutzerComboBox, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

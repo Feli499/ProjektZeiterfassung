@@ -117,9 +117,7 @@ public class FileDataAccess implements DataAccess {
 
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-            JSONArray projektBereiche = jsonObject.getJSONArray("zeitErfassungenIds");
-
-            datenLaden.add(new ZeitErfassungsDaten(jsonObject.getLong("id"), jsonObject.getString("bezeichnung"), jsonObject.getLong("logZeit"), jsonObject.getLong("startZeit"), jsonObject.getLong("userID")));
+            datenLaden.add(new ZeitErfassungsDaten(jsonObject.getLong("id"), jsonObject.getString("kommentar"), jsonObject.getLong("logZeit"), jsonObject.getLong("startZeit"), jsonObject.getLong("userID")));
         }
 
         return datenLaden;
@@ -136,7 +134,7 @@ public class FileDataAccess implements DataAccess {
         for (int i = 0; i < jsonArray.length(); i++) {
 
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            datenLaden.add(new User(jsonObject.getLong("userId"), jsonObject.getString("name")));
+            datenLaden.add(new User(jsonObject.getLong("id"), jsonObject.getString("name")));
         }
 
         return datenLaden;
