@@ -19,6 +19,8 @@ public class ProjektZeiterfassungMain {
 
         try {
 
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
             DataAccess dataAccess = new FileDataAccess(new File("daten"));
             ProjektContainer projektContainer = new ProjektContainer(dataAccess);
 
